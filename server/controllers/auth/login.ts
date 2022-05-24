@@ -47,7 +47,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     jwt.sign(
       payload,
       process.env.REFRESH_SECRET as string,
-      { expiresIn: 60 },
+      { expiresIn: 3600 },
       (error, token) => {
         if (error) {
           const error: any = new Error('Error signing authorization token')
@@ -56,8 +56,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
         }
 
         res.cookie('refreshToken', token, {
-          expires: new Date(Date.now() + 129600000), // 36h
-          sameSite: 'none',
+          expires: new Date(Date.now() + 3600000), // 1h
           secure: true,
           httpOnly: true,
         })
