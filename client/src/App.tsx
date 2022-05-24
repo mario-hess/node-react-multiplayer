@@ -26,7 +26,7 @@ const App = () => {
 
       setTimeout(() => {
         silentRefresh()
-      }, response.data.expiresIn * 1000 - 1000)
+      }, response.data.expiresIn * 1000 - 10000)
     } catch (response: any) {
       if (response.status !== 201) {
         dispatch(setUser(undefined))
