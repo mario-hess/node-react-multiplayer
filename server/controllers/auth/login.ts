@@ -38,11 +38,10 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
       throw error
     }
 
+    loadedUser.password = undefined
+
     const payload = {
-      user: {
-        id: loadedUser._id,
-        email: loadedUser.email,
-      },
+      user: loadedUser,
     }
 
     jwt.sign(
@@ -58,10 +57,10 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 
         res.cookie('refreshToken', token, {
           expires: new Date(Date.now() + 3600000), // 1h
+          sameSite: false,
           secure: true,
           httpOnly: true,
         })
-
         res.status(201).json({ user: loadedUser })
       }
     )

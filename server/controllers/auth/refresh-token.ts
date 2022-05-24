@@ -25,6 +25,7 @@ const refreshToken = async (
       user: {
         id: decoded.user._id,
         email: decoded.user.email,
+        username: decoded.user.email,
       },
     }
 
