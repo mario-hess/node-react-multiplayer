@@ -56,7 +56,8 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
         }
 
         res.cookie('refreshToken', token, {
-          expires: new Date(Date.now() + 60000), // 1m          sameSite: false,
+          expires: new Date(Date.now() + 129600000), // 36h
+          sameSite: 'none',
           secure: true,
           httpOnly: true,
         })
