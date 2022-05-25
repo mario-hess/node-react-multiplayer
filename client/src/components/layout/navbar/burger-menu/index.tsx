@@ -44,7 +44,7 @@ const CenterPath = styled.path<StyledProps>`
   stroke-dashoffset: ${(props) => (props.isToggled ? '-10' : '0')};
 `
 
-const BurgerMenu = () => {
+const BurgerMenu: React.FunctionComponent = () => {
   const isToggled = useSelector((state: any) => state.burgerMenu.isToggled)
   const dispatch = useAppDispatch()
 
