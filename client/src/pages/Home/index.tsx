@@ -1,8 +1,5 @@
-import styled from 'styled-components'
-
 const Home: React.FunctionComponent = () => {
-  const Wrapper = styled.div``
-  return <Wrapper>Home</Wrapper>
+  return <div>Home</div>
 }
 
 export default Home

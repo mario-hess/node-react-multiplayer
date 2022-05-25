@@ -9,50 +9,50 @@ import { setUser } from '../../../redux/userSlice'
 
 import BurgerMenu from './burger-menu'
 
+const List = styled.ul`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+`
+
+const ListLink = styled(Link)`
+  display: block;
+  margin: 0;
+  padding: 0;
+  color: black;
+  text-align: center;
+  padding: 1.5em;
+  text-decoration: none;
+
+  &:hover {
+    cursor: pointer;
+    color: pink;
+  }
+`
+
+const Logout = styled.p`
+  display: block;
+  margin: 0;
+  padding: 0;
+  color: black;
+  text-align: center;
+  padding: 1.5em;
+  text-decoration: none;
+
+  &:hover {
+    cursor: pointer;
+    color: pink;
+  }
+`
+
 const Navbar: React.FunctionComponent = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const userSlice = useSelector((state: any) => state.user)
-
-  const List = styled.ul`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-  `
-
-  const ListLink = styled(Link)`
-    display: block;
-    margin: 0;
-    padding: 0;
-    color: black;
-    text-align: center;
-    padding: 1.5em;
-    text-decoration: none;
-
-    &:hover {
-      cursor: pointer;
-      color: pink;
-    }
-  `
-
-  const Logout = styled.p`
-    display: block;
-    margin: 0;
-    padding: 0;
-    color: black;
-    text-align: center;
-    padding: 1.5em;
-    text-decoration: none;
-
-    &:hover {
-      cursor: pointer;
-      color: pink;
-    }
-  `
 
   const logout = async (event: React.MouseEvent<HTMLParagraphElement>) => {
     event.preventDefault()

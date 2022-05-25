@@ -15,6 +15,13 @@ import Error from './pages/Error'
 import GlobalStyles from './styles/globalStyles'
 import { defaultTheme } from './styles/theme'
 
+const Wrapper = styled.div`
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  min-height: 100vh;
+`
+
 const App: React.FunctionComponent = () => {
   const dispatch = useAppDispatch()
 
@@ -43,13 +50,6 @@ const App: React.FunctionComponent = () => {
   useEffect(() => {
     silentRefresh()
   }, [silentRefresh])
-
-  const Wrapper = styled.div`
-    margin: 0;
-    padding: 0;
-    width: 100vw;
-    min-height: 100vh;
-  `
 
   return (
     <ThemeProvider theme={defaultTheme}>
