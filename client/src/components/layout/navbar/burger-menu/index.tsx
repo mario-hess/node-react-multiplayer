@@ -48,7 +48,7 @@ const BurgerMenu: React.FunctionComponent = () => {
   const isToggled = useSelector((state: any) => state.burgerMenu.isToggled)
   const dispatch = useAppDispatch()
 
-  const toggle = (event: React.MouseEvent) => {
+  const toggle = (event: React.MouseEvent<SVGSVGElement>) => {
     event.preventDefault()
     dispatch(toggled())
   }
