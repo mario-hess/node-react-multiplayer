@@ -1,4 +1,4 @@
-const Error = () => {
+const Error: React.FunctionComponent = () => {
   return <div>Error</div>
 }
 

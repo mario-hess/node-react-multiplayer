@@ -10,7 +10,11 @@ interface ComponentProps {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Login = ({ silentRefresh, isLoading, setIsLoading }: ComponentProps) => {
+const Login: React.FunctionComponent<ComponentProps> = ({
+  silentRefresh,
+  isLoading,
+  setIsLoading,
+}: ComponentProps) => {
   const [values, setValues] = useState({
     email: '',
     password: '',

@@ -8,7 +8,7 @@ interface ComponentProps {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Signup = ({
+const Signup: React.FunctionComponent<ComponentProps> = ({
   switchForm,
   setSwitchForm,
   isLoading,

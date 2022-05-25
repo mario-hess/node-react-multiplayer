@@ -9,7 +9,9 @@ interface ComponentProps {
   silentRefresh: () => void
 }
 
-const Auth = ({ silentRefresh }: ComponentProps) => {
+const Auth: React.FunctionComponent<ComponentProps> = ({
+  silentRefresh,
+}: ComponentProps) => {
   const [isLoading, setIsLoading] = useState(false)
   const [switchForm, setSwitchForm] = useState(false)
   const userSlice = useSelector((state: any) => state.user)
@@ -19,7 +21,7 @@ const Auth = ({ silentRefresh }: ComponentProps) => {
     setSwitchForm(!switchForm)
   }
 
-  const AuthForm = () => {
+  const AuthForm: React.FunctionComponent = () => {
     return isLoading ? (
       <LoadingSpinner />
     ) : switchForm ? (
