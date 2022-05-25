@@ -58,6 +58,7 @@ const Login = ({ silentRefresh, isLoading, setIsLoading }: ComponentProps) => {
           id='email'
           type='email'
           name='email'
+          placeholder='Email'
           value={values.email}
           onChange={handleOnChange}
         />
@@ -65,6 +66,7 @@ const Login = ({ silentRefresh, isLoading, setIsLoading }: ComponentProps) => {
           id='password'
           type='password'
           name='password'
+          placeholder='Password'
           value={values.password}
           onChange={handleOnChange}
         />

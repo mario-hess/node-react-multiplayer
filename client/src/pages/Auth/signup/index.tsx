@@ -63,6 +63,7 @@ const Signup = ({
           id='email'
           type='email'
           name='email'
+          placeholder='Email'
           value={values.email}
           onChange={handleOnChange}
         />
@@ -70,6 +71,7 @@ const Signup = ({
           id='username'
           type='text'
           name='username'
+          placeholder='Username'
           value={values.username}
           onChange={handleOnChange}
         />
@@ -78,6 +80,7 @@ const Signup = ({
           id='password'
           type='password'
           name='password'
+          placeholder='Password'
           value={values.password}
           onChange={handleOnChange}
         />
@@ -85,6 +88,7 @@ const Signup = ({
           id='confirmPassword'
           type='password'
           name='confirmPassword'
+          placeholder='Confirm Password'
           value={values.confirmPassword}
           onChange={handleOnChange}
         />
