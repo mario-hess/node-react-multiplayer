@@ -1,9 +1,25 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
+import styled from 'styled-components'
 
 import LoadingSpinner from '../../components/layout/loading-spinner'
 import Signup from './signup'
 import Login from './login'
+
+const Wrapper = styled.div`
+  width: 100vw;
+  height: 100vh;
+`
+
+const Content = styled.div`
+  display: flex;
+  height: 100%;
+  width: 60%;
+  margin: auto;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`
 
 interface ComponentProps {
   silentRefresh: () => void
@@ -25,24 +41,24 @@ const Auth: React.FunctionComponent<ComponentProps> = ({
     return isLoading ? (
       <LoadingSpinner />
     ) : switchForm ? (
-      <>
-        <Signup
-          switchForm={switchForm}
-          setSwitchForm={setSwitchForm}
-          isLoading={isLoading}
-          setIsLoading={setIsLoading}
-        />
-        <p onClick={switchView}>Have an account?</p>
-      </>
+      <Wrapper>
+        <Content>
+          <Signup
+            switchForm={switchForm}
+            setSwitchForm={setSwitchForm}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+          />
+          <p onClick={switchView}>Have an account?</p>
+        </Content>
+      </Wrapper>
     ) : (
-      <>
-        <Login
-          silentRefresh={silentRefresh}
-          isLoading={isLoading}
-          setIsLoading={setIsLoading}
-        />
-        <p onClick={switchView}>No Account?</p>
-      </>
+      <Wrapper>
+        <Content>
+          <Login silentRefresh={silentRefresh} setIsLoading={setIsLoading} />
+          <p onClick={switchView}>No Account?</p>
+        </Content>
+      </Wrapper>
     )
   }
 

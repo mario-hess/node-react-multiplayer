@@ -20,6 +20,11 @@ const Wrapper = styled.svg`
   -ms-user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
+  z-index: 10;
+  @media only screen and (min-width: ${(props) =>
+      props.theme.breakpoints.laptop}) {
+    display: none;
+  }
 `
 
 const OuterPath = styled.path<StyledProps>`
@@ -44,14 +49,16 @@ const CenterPath = styled.path<StyledProps>`
   stroke-dashoffset: ${(props) => (props.isToggled ? '-10' : '0')};
 `
 
-const BurgerMenu: React.FunctionComponent = () => {
-  const isToggled = useSelector((state: any) => state.burgerMenu.isToggled)
-  const dispatch = useAppDispatch()
+interface ComponentProps {
+  isToggled: boolean
+  toggle: (event: React.MouseEvent<SVGSVGElement>) => void
+}
 
-  const toggle = (event: React.MouseEvent<SVGSVGElement>) => {
-    event.preventDefault()
-    dispatch(toggled())
-  }
+const BurgerMenu: React.FunctionComponent<ComponentProps> = ({
+  isToggled,
+  toggle,
+}: ComponentProps) => {
+  const dispatch = useAppDispatch()
 
   return (
     <Wrapper width={50} height={50} viewBox='-0.5 0 15 12.5' onClick={toggle}>

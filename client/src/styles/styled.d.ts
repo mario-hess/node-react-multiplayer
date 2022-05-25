@@ -17,12 +17,13 @@ declare module 'styled-components' {
     }
 
     breakpoints: {
-      small: string
-      medium: string
-      large: string
-      xLarge: string
-      xxLarge: string
-      xxxLarge: string
+      mobileSmall: string
+      mobileMedium: string
+      mobileLarge: string
+      tablet: string
+      laptop: string
+      laptopLarge: string
+      desktop: string
     }
 
     tapHeight: {

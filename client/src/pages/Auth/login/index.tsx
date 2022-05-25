@@ -6,13 +6,11 @@ import { setUser } from '../../../redux/userSlice'
 
 interface ComponentProps {
   silentRefresh: () => void
-  isLoading: boolean
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const Login: React.FunctionComponent<ComponentProps> = ({
   silentRefresh,
-  isLoading,
   setIsLoading,
 }: ComponentProps) => {
   const [values, setValues] = useState({
