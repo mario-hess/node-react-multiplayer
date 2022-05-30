@@ -15,25 +15,58 @@ type StyledProps = {
 }
 
 const Nav = styled.nav<StyledProps>`
-  position: fixed;
-  top: 0px;
-  left: ${(props) => (props.isToggled ? '0px' : '-200px')};
-  width: 200px;
-  height: 100vh;
-  background-color: #e3e3e3;
-  transition: all 0.5s ease;
-`
-
-const List = styled.ul`
   display: flex;
-  position: absolute;
-  width: 100%;
+  position: fixed;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 40vh;
+  left: ${(props) => (props.isToggled ? '0px' : '-100%')};
+  width: 100%;
+  height: 70%;
+  transition: all 0.5s ease;
+  background-color: ${(props) => props.theme.colors.background};
+
+  @media only screen and (min-width: ${(props) =>
+      props.theme.breakpoints.laptop}) {
+    left: 50%;
+    flex-direction: row;
+    transform: translate(-50%, 0%);
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+    height: 3em;
+  }
+`
+
+const ListLeft = styled.ul`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
   list-style: none;
   overflow: hidden;
+
+  @media only screen and (min-width: ${(props) =>
+      props.theme.breakpoints.laptop}) {
+    flex-direction: row;
+    height: 3em;
+  }
+`
+const ListRight = styled.ul`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  list-style: none;
+  overflow: hidden;
+  margin-top: 3em;
+
+  @media only screen and (min-width: ${(props) =>
+      props.theme.breakpoints.laptop}) {
+    flex-direction: row;
+    height: 3em;
+    margin-top: 0px;
+  }
 `
 
 const ListLink = styled(Link)`
@@ -42,6 +75,7 @@ const ListLink = styled(Link)`
   text-align: center;
   padding: 0.5em;
   text-decoration: none;
+  color: ${(props) => props.theme.colors.foreground};
 
   &:hover {
     cursor: pointer;
@@ -53,8 +87,9 @@ const Logout = styled.p`
   display: block;
   color: black;
   text-align: center;
-  padding: 1.5em;
   text-decoration: none;
+  color: ${(props) => props.theme.colors.foreground};
+  padding: 0.5em;
 
   &:hover {
     cursor: pointer;
@@ -94,23 +129,60 @@ const Navbar: React.FunctionComponent = () => {
       <BurgerMenu isToggled={isToggled} toggle={toggle} />
 
       <Nav isToggled={isToggled}>
-        <List>
+        <ListLeft>
           <li>
             <ListLink to='/' onClick={toggle}>
               Home
             </ListLink>
           </li>
+          <li>
+            <ListLink to='/' onClick={toggle}>
+              Players
+            </ListLink>
+          </li>
+          <li>
+            <ListLink to='/' onClick={toggle}>
+              Clans
+            </ListLink>
+          </li>
+          <li>
+            <ListLink to='/' onClick={toggle}>
+              PvE
+            </ListLink>
+          </li>
+          <li>
+            <ListLink to='/' onClick={toggle}>
+              PvP
+            </ListLink>
+          </li>
+          <li>
+            <ListLink to='/' onClick={toggle}>
+              Items
+            </ListLink>
+          </li>
+          <li>
+            <ListLink to='/' onClick={toggle}>
+              Skills
+            </ListLink>
+          </li>
+        </ListLeft>
+        <ListRight>
           {userSlice?.user?.payload === undefined ? (
             <li>
               <ListLink to='/auth' onClick={toggle}>
-                Auth
+                Account
               </ListLink>
             </li>
           ) : (
             <>
               <li>
+                <ListLink to='/' onClick={toggle}>
+                  Play
+                </ListLink>
+              </li>
+              <li>
                 <ListLink to='/auth' onClick={toggle}>
-                  Game
+                  Account
                 </ListLink>
               </li>
               <li>
@@ -118,7 +190,7 @@ const Navbar: React.FunctionComponent = () => {
               </li>
             </>
           )}
-        </List>
+        </ListRight>
       </Nav>
     </>
   )

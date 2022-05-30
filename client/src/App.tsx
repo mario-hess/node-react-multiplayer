@@ -20,6 +20,7 @@ const Wrapper = styled.div`
   padding: 0;
   width: 100vw;
   min-height: 100vh;
+  background-color: #293241;
 `
 
 const App: React.FunctionComponent = () => {
