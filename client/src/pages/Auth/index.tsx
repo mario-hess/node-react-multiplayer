@@ -5,6 +5,8 @@ import styled from 'styled-components'
 import LoadingSpinner from '../../components/layout/loading-spinner'
 import Signup from './signup'
 import Login from './login'
+import Game from './Game'
+import { RootState } from '../../store'
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -22,15 +24,18 @@ const Content = styled.div`
 `
 
 interface ComponentProps {
+  isLoadingAuth: boolean
+  setIsLoadingAuth: React.Dispatch<React.SetStateAction<boolean>>
   silentRefresh: () => void
 }
 
 const Auth: React.FunctionComponent<ComponentProps> = ({
+  isLoadingAuth,
+  setIsLoadingAuth,
   silentRefresh,
 }: ComponentProps) => {
-  const [isLoading, setIsLoading] = useState(false)
   const [switchForm, setSwitchForm] = useState(false)
-  const userSlice = useSelector((state: any) => state.user)
+  const user = useSelector((state: RootState) => state.user.data)
 
   const switchView = (event: React.MouseEvent<HTMLParagraphElement>) => {
     event.preventDefault()
@@ -38,7 +43,7 @@ const Auth: React.FunctionComponent<ComponentProps> = ({
   }
 
   const AuthForm: React.FunctionComponent = () => {
-    return isLoading ? (
+    return isLoadingAuth ? (
       <LoadingSpinner />
     ) : switchForm ? (
       <Wrapper>
@@ -46,8 +51,7 @@ const Auth: React.FunctionComponent<ComponentProps> = ({
           <Signup
             switchForm={switchForm}
             setSwitchForm={setSwitchForm}
-            isLoading={isLoading}
-            setIsLoading={setIsLoading}
+            setIsLoadingAuth={setIsLoadingAuth}
           />
           <p onClick={switchView}>Have an account?</p>
         </Content>
@@ -55,14 +59,21 @@ const Auth: React.FunctionComponent<ComponentProps> = ({
     ) : (
       <Wrapper>
         <Content>
-          <Login silentRefresh={silentRefresh} setIsLoading={setIsLoading} />
+          <Login
+            silentRefresh={silentRefresh}
+            setIsLoadingAuth={setIsLoadingAuth}
+          />
           <p onClick={switchView}>No Account?</p>
         </Content>
       </Wrapper>
     )
   }
 
-  return userSlice?.user?.payload === undefined ? <AuthForm /> : <p>Game</p>
+  return user === null ? (
+    <AuthForm />
+  ) : (
+    <Game setIsLoadingAuth={setIsLoadingAuth} />
+  )
 }
 
 export default Auth

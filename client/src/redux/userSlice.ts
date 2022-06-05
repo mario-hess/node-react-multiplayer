@@ -1,15 +1,23 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-const initialState = {
-  user: undefined,
+type User = {
+  _id: string
+  email: string
+  username: string
+  register_date: string
+  __v: number
+}
+
+const initialState: any = {
+  data: null,
 }
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser: (state, payload: any) => {
-      state.user = payload
+    setUser: (state, action: PayloadAction<User | null>) => {
+      state.data = action.payload
     },
   },
 })

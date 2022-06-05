@@ -6,6 +6,9 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 
+import { tick } from './game/game'
+import { socketHandle } from './socket/socket-handle'
+
 import authRoutes from './routes/auth'
 
 const PORT = (process.env.PORT as string) ?? 5000
@@ -13,13 +16,20 @@ const PORT = (process.env.PORT as string) ?? 5000
 dotenv.config({ path: './.env' })
 
 const app = express()
-const server = http.createServer(app)
-const io = new Server(server)
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({ origin: `http://localhost:3000`, credentials: true }))
+const server = http.createServer(app)
+const io = new Server(server, {
+  cors: {
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST'],
+    credentials: true,
+  },
+})
 
 app.use('/auth', authRoutes)
+tick()
 
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
   console.log(error)
@@ -30,9 +40,7 @@ app.use((error: any, req: Request, res: Response, next: NextFunction) => {
   })
 })
 
-io.on('connection', (socket) => {
-  console.log('A user connected.')
-})
+socketHandle(io)
 
 const connect = async () => {
   try {
