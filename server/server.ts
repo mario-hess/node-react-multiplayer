@@ -6,9 +6,6 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 
-import { tick } from './game/game'
-import { socketHandle } from './socket/socket-handle'
-
 import authRoutes from './routes/auth'
 import { init } from './engine/game-engine'
 
