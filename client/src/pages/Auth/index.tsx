@@ -1,16 +1,16 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import LoadingSpinner from '../../components/layout/loading-spinner'
-import Signup from './signup'
-import Login from './login'
-import Game from './Game'
+import Signup from '../../components/auth/signup'
+import Login from '../../components/auth/login'
+import Game from '../../components/game'
 import { RootState } from '../../store'
 
 const Wrapper = styled.div`
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
 `
 
 const Content = styled.div`
@@ -36,6 +36,14 @@ const Auth: React.FunctionComponent<ComponentProps> = ({
 }: ComponentProps) => {
   const [switchForm, setSwitchForm] = useState(false)
   const user = useSelector((state: RootState) => state.user.data)
+
+  useEffect(() => {
+    console.log('Rendering Auth Page...')
+
+    return () => {
+      console.log('Cleaning up Auth...')
+    }
+  }, [])
 
   const switchView = (event: React.MouseEvent<HTMLParagraphElement>) => {
     event.preventDefault()
@@ -72,7 +80,7 @@ const Auth: React.FunctionComponent<ComponentProps> = ({
   return user === null ? (
     <AuthForm />
   ) : (
-    <Game setIsLoadingAuth={setIsLoadingAuth} />
+    <Game isLoadingAuth={isLoadingAuth} setIsLoadingAuth={setIsLoadingAuth} />
   )
 }
 

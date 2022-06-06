@@ -10,6 +10,7 @@ import { tick } from './game/game'
 import { socketHandle } from './socket/socket-handle'
 
 import authRoutes from './routes/auth'
+import { init } from './engine/game-engine'
 
 const PORT = (process.env.PORT as string) ?? 5000
 
@@ -29,7 +30,6 @@ const io = new Server(server, {
 })
 
 app.use('/auth', authRoutes)
-tick()
 
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
   console.log(error)
@@ -40,7 +40,7 @@ app.use((error: any, req: Request, res: Response, next: NextFunction) => {
   })
 })
 
-socketHandle(io)
+init(io)
 
 const connect = async () => {
   try {

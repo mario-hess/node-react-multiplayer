@@ -38,8 +38,8 @@ const App: React.FunctionComponent = () => {
         'Authorization'
       ] = `Bearer ${response.data.token}`
       console.log('Refreshed JWT')
-      dispatch(setUser(response.data.user))
-      setIsLoadingAuth(false)
+      if (user === null) dispatch(setUser(response.data.user))
+      if (isLoadingAuth) setIsLoadingAuth(false)
       setTimeout(() => {
         silentRefresh()
       }, response.data.expiresIn * 1000 - 10000)

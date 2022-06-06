@@ -24,6 +24,7 @@ const Nav = styled.nav<StyledProps>`
   height: 70%;
   transition: all 0.5s ease;
   background-color: ${(props) => props.theme.colors.background};
+  z-index: 10;
 
   @media only screen and (min-width: ${(props) =>
       props.theme.breakpoints.laptop}) {
@@ -169,7 +170,7 @@ const Navbar: React.FunctionComponent = () => {
           {user === null ? (
             <li>
               <ListLink to='/auth' onClick={toggle}>
-                Account
+                Play
               </ListLink>
             </li>
           ) : (
