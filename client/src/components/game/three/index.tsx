@@ -4,6 +4,7 @@ import World from './world'
 
 const Three = () => {
   const [players, setPlayers]: any = useState([])
+
   useEffect(() => {
     console.log('Rendering Three...')
 

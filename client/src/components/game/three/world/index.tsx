@@ -8,6 +8,12 @@ interface ComponentProps {
 }
 
 const World = ({ players }: ComponentProps) => {
+  const { gl } = useThree()
+
+  gl.setSize(window.innerWidth, window.innerHeight)
+  gl.setPixelRatio(window.devicePixelRatio)
+  gl.shadowMap.enabled = true
+
   useEffect(() => {
     console.log('Rendering World...')
     return () => {
@@ -15,10 +21,6 @@ const World = ({ players }: ComponentProps) => {
     }
   }, [])
 
-  const { gl } = useThree()
-  gl.setSize(window.innerWidth, window.innerHeight)
-  gl.setPixelRatio(window.devicePixelRatio)
-  gl.shadowMap.enabled = true
   return (
     <>
       <ambientLight args={['#ffffff']} />
@@ -27,8 +29,17 @@ const World = ({ players }: ComponentProps) => {
         return (
           <Box
             key={index}
-            position={[player.position.x, player.position.y, player.position.z]}
-            rotation={[player.rotation.x, player.rotation.y, player.rotation.z]}
+            currentPosition={{
+              x: player.position.x,
+              y: player.position.y,
+              z: player.position.z,
+            }}
+            currentRotation={{
+              x: player.rotation.x,
+              y: player.rotation.y,
+              z: player.rotation.z,
+              w: player.rotation.w,
+            }}
           />
         )
       })}

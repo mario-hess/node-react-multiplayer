@@ -9,8 +9,11 @@ import {
 } from './server-engine'
 
 const physicsTick = (io: Server<any>) => {
+  const timeStep = 1 / 60
   const tick = () => {
-    setImmediate(tick)
+    setTimeout(() => {
+      tick()
+    }, timeStep)
 
     world.fixedStep()
 
@@ -18,8 +21,16 @@ const physicsTick = (io: Server<any>) => {
       return {
         username: client.username,
         position: client.body?.position,
-        rotation: client.body?.quaternion,
+        rotation: {
+          x: client.body?.quaternion.x,
+          y: client.body?.quaternion.y,
+          z: client.body?.quaternion.z,
+          w: client.body?.quaternion.w,
+        },
       }
+    })
+    connectedClients.forEach((client: any) => {
+      console.log(`${client.socketId} ${client.body?.quaternion}`)
     })
     io.emit('clients', clientData)
   }
@@ -31,7 +42,6 @@ const createPlayerBody = (world: World, socketId: string) => {
   const halfExtents = new Vec3(size, size, size)
   const boxShape = new Box(halfExtents)
   const boxBody = new Body({ mass: 1, shape: boxShape })
-
   boxBody.position.set(Math.floor(Math.random() * 10) - 5, 10, 0) // m
   world.addBody(boxBody)
 
