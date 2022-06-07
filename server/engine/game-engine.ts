@@ -21,28 +21,23 @@ const physicsTick = (io: Server<any>) => {
       return {
         username: client.username,
         position: client.body?.position,
-        rotation: {
-          x: client.body?.quaternion.x,
-          y: client.body?.quaternion.y,
-          z: client.body?.quaternion.z,
-          w: client.body?.quaternion.w,
-        },
+        quaternion: client.body?.quaternion,
       }
     })
-    connectedClients.forEach((client: any) => {
-      console.log(`${client.socketId} ${client.body?.quaternion}`)
-    })
+
     io.emit('clients', clientData)
   }
   tick()
 }
 
 const createPlayerBody = (world: World, socketId: string) => {
-  const size = 1 // m
+  const size = 0.5 // m
   const halfExtents = new Vec3(size, size, size)
   const boxShape = new Box(halfExtents)
   const boxBody = new Body({ mass: 1, shape: boxShape })
-  boxBody.position.set(Math.floor(Math.random() * 10) - 5, 10, 0) // m
+  //boxBody.angularFactor.set(0, 1, 0)
+
+  boxBody.position.set(Math.random() * 10 - 5.5, 10, 0) // m
   world.addBody(boxBody)
 
   const index = connectedClients.findIndex((userObject) => {

@@ -30,15 +30,10 @@ const World = ({ players }: ComponentProps) => {
           <Box
             key={index}
             currentPosition={{
-              x: player.position.x,
-              y: player.position.y,
-              z: player.position.z,
+              position: player.position,
             }}
-            currentRotation={{
-              x: player.rotation.x,
-              y: player.rotation.y,
-              z: player.rotation.z,
-              w: player.rotation.w,
+            currentQuaternion={{
+              quaternion: player.quaternion,
             }}
           />
         )
