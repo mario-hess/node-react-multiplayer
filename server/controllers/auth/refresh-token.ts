@@ -21,14 +21,6 @@ const refreshToken = async (
 
     const decoded: any = jwt.verify(token, process.env.REFRESH_SECRET as string)
 
-    const payload = {
-      user: {
-        id: decoded.user._id,
-        email: decoded.user.email,
-        username: decoded.user.username,
-      },
-    }
-
     const loadedUser = await User.findOne({
       email: decoded.user.email,
     }).select('-password')
@@ -37,6 +29,9 @@ const refreshToken = async (
       const error: any = new Error('A user with this email could not be found')
       error.statusCode = 401
       throw error
+    }
+    const payload = {
+      user: loadedUser,
     }
 
     jwt.sign(

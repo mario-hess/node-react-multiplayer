@@ -10,7 +10,7 @@ import { RootState } from '../../store'
 
 const Wrapper = styled.div`
   width: 100vw;
-  min-height: 100vh;
+  height: 100vh;
 `
 
 const Content = styled.div`
@@ -35,7 +35,9 @@ const Auth: React.FunctionComponent<ComponentProps> = ({
   silentRefresh,
 }: ComponentProps) => {
   const [switchForm, setSwitchForm] = useState(false)
-  const user = useSelector((state: RootState) => state.user.data)
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.isAuthenticated.data
+  )
 
   useEffect(() => {
     console.log('Rendering Auth Page...')
@@ -77,11 +79,7 @@ const Auth: React.FunctionComponent<ComponentProps> = ({
     )
   }
 
-  return user === null ? (
-    <AuthForm />
-  ) : (
-    <Game isLoadingAuth={isLoadingAuth} setIsLoadingAuth={setIsLoadingAuth} />
-  )
+  return isAuthenticated ? <Game /> : <AuthForm />
 }
 
 export default Auth

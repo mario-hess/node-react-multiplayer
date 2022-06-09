@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useThree } from '@react-three/fiber'
 
+import Ground from './plane'
 import Box from '../Box'
 
 interface ComponentProps {
@@ -8,7 +9,7 @@ interface ComponentProps {
 }
 
 const World = ({ players }: ComponentProps) => {
-  const { gl } = useThree()
+  const { gl, camera, scene } = useThree()
 
   gl.setSize(window.innerWidth, window.innerHeight)
   gl.setPixelRatio(window.devicePixelRatio)
@@ -24,16 +25,15 @@ const World = ({ players }: ComponentProps) => {
   return (
     <>
       <ambientLight args={['#ffffff']} />
-      <pointLight position={[10, 10, 10]} />
+      <pointLight castShadow position={[10, 10, 10]} />
+      <Ground />
       {players.map((player: any, index) => {
         return (
           <Box
             key={index}
-            currentPosition={{
+            data={{
               position: player.position,
-            }}
-            currentQuaternion={{
-              quaternion: player.quaternion,
+              rotation: player.quaternion,
             }}
           />
         )

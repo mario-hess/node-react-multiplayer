@@ -1,4 +1,21 @@
-import { useEffect } from 'react'
+import { useState } from 'react'
+
+import OnlineScenes from './scenes/OnlineScenes'
+import OfflineScenes from './scenes/OfflineScenes'
+
+const Game = () => {
+  const [connected, setConnected] = useState(false)
+
+  return connected ? (
+    <OnlineScenes setConnected={setConnected} />
+  ) : (
+    <OfflineScenes setConnected={setConnected} />
+  )
+}
+
+export default Game
+
+/*import { useEffect } from 'react'
 import { Canvas } from '@react-three/fiber'
 import styled from 'styled-components'
 
@@ -25,10 +42,11 @@ const Game = ({ isLoadingAuth, setIsLoadingAuth }: ComponentProps) => {
     }
   }, [])
   return (
-    <Wrapper>
+    <Wrapper shadows>
       <Three />
     </Wrapper>
   )
 }
 
 export default Game
+*/

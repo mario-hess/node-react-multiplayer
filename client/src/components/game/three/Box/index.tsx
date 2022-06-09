@@ -1,20 +1,17 @@
 import { useRef } from 'react'
-import { useFrame, Euler, Quaternion } from '@react-three/fiber'
+import { useFrame } from '@react-three/fiber'
 
 const Box = (props: any) => {
-  // This reference gives us direct access to the THREE.Mesh object
   const ref: any = useRef()
 
-  // Subscribe this component to the render-loop, rotate the mesh every frame
-
   useFrame(() => {
-    ref.current.position.copy(props.currentPosition.position)
+    ref.current.position.copy(props.data.position)
 
-    ref.current.quaternion.copy(props.currentQuaternion.quaternion)
+    ref.current.quaternion.copy(props.data.rotation)
   })
 
   return (
-    <mesh {...props} ref={ref}>
+    <mesh {...props} castShadow ref={ref}>
       <boxGeometry args={[1, 1, 1]} />
       <meshStandardMaterial color={'orange'} />
     </mesh>

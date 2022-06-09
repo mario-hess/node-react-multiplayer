@@ -4,9 +4,9 @@ import axios, { AxiosResponse } from 'axios'
 import { ThemeProvider } from 'styled-components'
 import styled from 'styled-components'
 
-import { useSelector } from 'react-redux'
-import { RootState, useAppDispatch } from './store'
+import { useAppDispatch } from './store'
 import { setUser } from './redux/userSlice'
+import { setIsAuthenticated } from './redux/isAuthenticatedSlice'
 
 import Navbar from './components/layout/navbar'
 import Home from './pages/Home'
@@ -26,7 +26,6 @@ const Wrapper = styled.div`
 
 const App: React.FunctionComponent = () => {
   const [isLoadingAuth, setIsLoadingAuth] = useState(true)
-  const user = useSelector((state: RootState) => state.user.data)
   const dispatch = useAppDispatch()
 
   const silentRefresh = useCallback(async () => {
@@ -38,14 +37,16 @@ const App: React.FunctionComponent = () => {
         'Authorization'
       ] = `Bearer ${response.data.token}`
       console.log('Refreshed JWT')
-      if (user === null) dispatch(setUser(response.data.user))
-      if (isLoadingAuth) setIsLoadingAuth(false)
+      dispatch(setUser(response.data.user))
+      dispatch(setIsAuthenticated(true))
+      setIsLoadingAuth(false)
       setTimeout(() => {
         silentRefresh()
       }, response.data.expiresIn * 1000 - 10000)
     } catch (response: any) {
       if (response.status !== 201) {
-        if (user) dispatch(setUser(null))
+        dispatch(setUser(null))
+        dispatch(setIsAuthenticated(false))
         setIsLoadingAuth(false)
         console.log('Not Authorized')
       }

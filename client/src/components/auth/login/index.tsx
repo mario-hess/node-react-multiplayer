@@ -36,10 +36,11 @@ const Login: React.FunctionComponent<ComponentProps> = ({
       )
       console.log('Login successful')
       silentRefresh()
-    } catch ({ response }) {
-      const res: any = response
-      console.log(res.data.message)
-      setIsLoadingAuth(false)
+    } catch (response: any) {
+      if (response.status !== 201) {
+        console.log(response.message)
+        setIsLoadingAuth(false)
+      }
     }
   }
 
