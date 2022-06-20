@@ -1,5 +1,7 @@
 import mongoose from 'mongoose'
 
+import { characterSchema } from './character'
+
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -13,6 +15,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  characters: [characterSchema],
   register_date: {
     type: Date,
     default: Date.now,

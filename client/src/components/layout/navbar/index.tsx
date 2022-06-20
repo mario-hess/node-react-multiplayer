@@ -4,10 +4,10 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { useAppDispatch } from '../../../store'
+import { RootState, useAppDispatch } from '../../../store'
 import { toggled } from './burger-menu/slice'
 import { setUser } from '../../../redux/userSlice'
-
+import { setIsAuthenticated } from '../../../redux/isAuthenticatedSlice'
 import BurgerMenu from './burger-menu'
 
 type StyledProps = {
@@ -25,6 +25,7 @@ const Nav = styled.nav<StyledProps>`
   height: 70%;
   transition: all 0.5s ease;
   background-color: ${(props) => props.theme.colors.background};
+  z-index: 10;
 
   @media only screen and (min-width: ${(props) =>
       props.theme.breakpoints.laptop}) {
@@ -101,14 +102,15 @@ const Navbar: React.FunctionComponent = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const isToggled = useSelector((state: any) => state.burgerMenu.isToggled)
-  const userSlice = useSelector((state: any) => state.user)
+  const user = useSelector((state: RootState) => state.user.data)
 
   const logout = async (event: React.MouseEvent<HTMLParagraphElement>) => {
     event.preventDefault()
     dispatch(toggled())
     try {
       await axios.get((import.meta.env.VITE_BASEURL as string) + 'auth/logout')
-      dispatch(setUser(undefined))
+      dispatch(setUser(null))
+      dispatch(setIsAuthenticated(false))
       navigate('/auth')
     } catch ({ response }) {
       console.log(response)
@@ -167,22 +169,17 @@ const Navbar: React.FunctionComponent = () => {
           </li>
         </ListLeft>
         <ListRight>
-          {userSlice?.user?.payload === undefined ? (
+          {user === null ? (
             <li>
               <ListLink to='/auth' onClick={toggle}>
-                Account
+                Play
               </ListLink>
             </li>
           ) : (
             <>
               <li>
-                <ListLink to='/' onClick={toggle}>
-                  Play
-                </ListLink>
-              </li>
-              <li>
                 <ListLink to='/auth' onClick={toggle}>
-                  Account
+                  Play
                 </ListLink>
               </li>
               <li>

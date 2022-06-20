@@ -7,17 +7,24 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 
 import authRoutes from './routes/auth'
+import { init } from './engine/game-engine'
 
 const PORT = (process.env.PORT as string) ?? 5000
 
 dotenv.config({ path: './.env' })
 
 const app = express()
-const server = http.createServer(app)
-const io = new Server(server)
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({ origin: `http://localhost:3000`, credentials: true }))
+const server = http.createServer(app)
+const io = new Server(server, {
+  cors: {
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST'],
+    credentials: true,
+  },
+})
 
 app.use('/auth', authRoutes)
 
@@ -30,9 +37,7 @@ app.use((error: any, req: Request, res: Response, next: NextFunction) => {
   })
 })
 
-io.on('connection', (socket) => {
-  console.log('A user connected.')
-})
+init(io)
 
 const connect = async () => {
   try {

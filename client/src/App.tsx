@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, createContext } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import axios, { AxiosResponse } from 'axios'
 import { ThemeProvider } from 'styled-components'
@@ -6,6 +6,7 @@ import styled from 'styled-components'
 
 import { useAppDispatch } from './store'
 import { setUser } from './redux/userSlice'
+import { setIsAuthenticated } from './redux/isAuthenticatedSlice'
 
 import Navbar from './components/layout/navbar'
 import Home from './pages/Home'
@@ -20,10 +21,11 @@ const Wrapper = styled.div`
   padding: 0;
   width: 100vw;
   min-height: 100vh;
-  background-color: #293241;
+  background-color: ${(props) => props.theme.colors.background};
 `
 
 const App: React.FunctionComponent = () => {
+  const [isLoadingAuth, setIsLoadingAuth] = useState(true)
   const dispatch = useAppDispatch()
 
   const silentRefresh = useCallback(async () => {
@@ -36,13 +38,16 @@ const App: React.FunctionComponent = () => {
       ] = `Bearer ${response.data.token}`
       console.log('Refreshed JWT')
       dispatch(setUser(response.data.user))
-
+      dispatch(setIsAuthenticated(true))
+      setIsLoadingAuth(false)
       setTimeout(() => {
         silentRefresh()
       }, response.data.expiresIn * 1000 - 10000)
     } catch (response: any) {
       if (response.status !== 201) {
-        dispatch(setUser(undefined))
+        dispatch(setUser(null))
+        dispatch(setIsAuthenticated(false))
+        setIsLoadingAuth(false)
         console.log('Not Authorized')
       }
     }
@@ -62,7 +67,13 @@ const App: React.FunctionComponent = () => {
             <Route path='/' element={<Home />} />
             <Route
               path='/auth'
-              element={<Auth silentRefresh={silentRefresh} />}
+              element={
+                <Auth
+                  isLoadingAuth={isLoadingAuth}
+                  setIsLoadingAuth={setIsLoadingAuth}
+                  silentRefresh={silentRefresh}
+                />
+              }
             />
             <Route path='*' element={<Error />} />
           </Routes>

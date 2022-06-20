@@ -1,25 +1,19 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import axios, { AxiosResponse } from 'axios'
-import { useAppDispatch } from '../../../store'
-import { setUser } from '../../../redux/userSlice'
+import axios from 'axios'
 
 interface ComponentProps {
   silentRefresh: () => void
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
+  setIsLoadingAuth: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const Login: React.FunctionComponent<ComponentProps> = ({
   silentRefresh,
-  setIsLoading,
+  setIsLoadingAuth,
 }: ComponentProps) => {
   const [values, setValues] = useState({
     email: '',
     password: '',
   })
-
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
 
   const handleOnChange = (event: React.FormEvent<HTMLInputElement>) => {
     const { name, value } = event.target as HTMLTextAreaElement
@@ -31,9 +25,9 @@ const Login: React.FunctionComponent<ComponentProps> = ({
   }
 
   const login = async () => {
-    setIsLoading(true)
+    setIsLoadingAuth(true)
     try {
-      const response: AxiosResponse = await axios.post(
+      await axios.post(
         (import.meta.env.VITE_BASEURL as string) + 'auth/login',
         {
           email: values.email,
@@ -41,14 +35,12 @@ const Login: React.FunctionComponent<ComponentProps> = ({
         }
       )
       console.log('Login successful')
-
-      dispatch(setUser(response.data.user))
       silentRefresh()
-      navigate('/')
-    } catch ({ response }) {
-      const res: any = response
-      console.log(res.data.message)
-      setIsLoading(false)
+    } catch (response: any) {
+      if (response.status !== 201) {
+        console.log(response.message)
+        setIsLoadingAuth(false)
+      }
     }
   }
 

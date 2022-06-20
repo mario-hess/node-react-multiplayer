@@ -4,15 +4,15 @@ import axios, { AxiosResponse } from 'axios'
 interface ComponentProps {
   switchForm: boolean
   setSwitchForm: React.Dispatch<React.SetStateAction<boolean>>
-  isLoading: boolean
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
+
+  setIsLoadingAuth: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const Signup: React.FunctionComponent<ComponentProps> = ({
   switchForm,
   setSwitchForm,
-  isLoading,
-  setIsLoading,
+
+  setIsLoadingAuth,
 }: ComponentProps) => {
   const [values, setValues] = useState({
     email: '',
@@ -31,7 +31,7 @@ const Signup: React.FunctionComponent<ComponentProps> = ({
   }
 
   const signup = async () => {
-    setIsLoading(true)
+    setIsLoadingAuth(true)
     try {
       const response: AxiosResponse = await axios.post(
         (import.meta.env.VITE_BASEURL as string) + 'auth/signup',
@@ -42,20 +42,18 @@ const Signup: React.FunctionComponent<ComponentProps> = ({
           confirmPassword: values.confirmPassword,
         }
       )
-      setIsLoading(false)
+      setIsLoadingAuth(false)
 
       setSwitchForm(!switchForm)
       console.log(response)
     } catch ({ response }) {
       const res: any = response
       console.log(res.data.message)
-      setIsLoading(false)
+      setIsLoadingAuth(false)
     }
   }
 
-  return isLoading ? (
-    <div>Loading...</div>
-  ) : (
+  return (
     <div>
       <h1>Sign Up</h1>
       <form>
