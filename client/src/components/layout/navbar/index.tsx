@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import { RootState, useAppDispatch } from '../../../store'
 import { toggled } from './burger-menu/slice'
 import { setUser } from '../../../redux/userSlice'
+import { setIsAuthenticated } from '../../../redux/isAuthenticatedSlice'
 import BurgerMenu from './burger-menu'
 
 type StyledProps = {
@@ -109,6 +110,7 @@ const Navbar: React.FunctionComponent = () => {
     try {
       await axios.get((import.meta.env.VITE_BASEURL as string) + 'auth/logout')
       dispatch(setUser(null))
+      dispatch(setIsAuthenticated(false))
       navigate('/auth')
     } catch ({ response }) {
       console.log(response)

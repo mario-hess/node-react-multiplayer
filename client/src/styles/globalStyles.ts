@@ -15,4 +15,8 @@ export default createGlobalStyle`
     code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
     }
+
+    p, h1, h2 {
+        color: #f2f2f2;
+    }
 `

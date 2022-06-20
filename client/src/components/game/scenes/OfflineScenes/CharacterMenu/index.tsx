@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { Canvas } from '@react-three/fiber'
 import { SCENES } from '../../SceneLoader'
 import LoadingSpinner from '../../../../layout/loading-spinner'
 
@@ -20,7 +19,7 @@ const CharacterMenu = ({ setScene, setConnected }: ComponentProps) => {
   return isLoading ? (
     <LoadingSpinner />
   ) : (
-    <Component setConnected={setConnected} />
+    <Component setConnected={setConnected} setScene={setScene} />
   )
 }
 export default CharacterMenu

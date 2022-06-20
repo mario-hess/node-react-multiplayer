@@ -1,12 +1,11 @@
-import { useEffect } from 'react'
+import React from 'react'
 import { Canvas } from '@react-three/fiber'
 import styled from 'styled-components'
-import { SCENES } from '../../../SceneLoader'
 
+import { SCENES } from '../../../SceneLoader'
 import CanvasComponent from '../CanvasComponent'
 
 interface ComponentProps {
-  setConnected: React.Dispatch<React.SetStateAction<boolean>>
   setScene: React.Dispatch<React.SetStateAction<SCENES>>
 }
 
@@ -26,20 +25,16 @@ const ComponentWrapper = styled.div`
   z-index: 2;
 `
 
-const Component = ({ setConnected, setScene }: ComponentProps) => {
+const Component = ({ setScene }: ComponentProps) => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
-    setConnected(true)
+    setScene(SCENES.CharacterMenu)
   }
-
-  useEffect(() => {
-    return () => {}
-  }, [])
 
   return (
     <>
       <ComponentWrapper>
-        <p>CharacterMenu</p> <button onClick={handleClick}>Enter World</button>
+        <p>Splash</p> <button onClick={handleClick}>Enter</button>
       </ComponentWrapper>
       <WebGLCanvas>
         <CanvasComponent />
