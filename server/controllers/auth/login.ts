@@ -38,7 +38,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
       throw error
     }
 
-    loadedUser.password = undefined
+    loadedUser.password = ''
 
     const payload = {
       user: loadedUser,
